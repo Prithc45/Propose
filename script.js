@@ -614,7 +614,47 @@ function createSparkles() {
 createSparkles();
 
 // --- Page 4: Glowing proposal text animation ---
+// Mobile optimizations
+document.addEventListener('DOMContentLoaded', function() {
+  // Prevent unwanted touch behaviors
+  document.addEventListener('touchmove', function(e) {
+    if (!e.target.closest('.popup-card')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Prevent double-tap zoom
+  let lastTap = 0;
+  document.addEventListener('touchstart', function(e) {
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      e.preventDefault();
+    }
+    lastTap = now;
+  }, { passive: false });
+
+  // Ensure buttons are clickable
+  document.querySelectorAll('.btn, .ghost').forEach(button => {
+    button.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      this.click();
+    }, { passive: false });
+  });
+});
+
+// Loading screen handling
 window.addEventListener('load', () => {
+  // Add minimal display time for loading screen
+  const minLoadingTime = 1500; // 1.5 seconds minimum to show loading animation
+  const loadStartTime = Date.now();
+  
+  // Ensure loading screen shows for at least minLoadingTime
+  const remainingTime = Math.max(0, minLoadingTime - (Date.now() - loadStartTime));
+  setTimeout(() => {
+    document.querySelector('.loader').classList.add('hidden');
+  }, remainingTime);
+
+  // Initialize proposal text animation if it exists
   const proposal = document.querySelector('.proposal-text');
   if (proposal) {
     proposal.style.textShadow = '0 0 10px #ff4081, 0 0 20px #40c9ff';
