@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hey cutie 💌</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- HERO / Landing (was index.html) -->
+  <div class="page hero" data-page="index">
+    <div class="card">
+      <h1>Hey… I have a surprise for you!</h1>
+      <p>Click below to start, I promise it's just for you💫</p>
+      <div class="actions">
+  <button id="open-btn" class="btn" onclick="navigate('page2')" disabled>Open it 💖</button>
+        <button class="ghost" id="music-toggle">Play music ❤️</button>
+      </div>
+      <small class="hint">Tip: turn on music to open it and for a cute surprise at the end.</small>
+      <div class="card-emoji" aria-hidden="true">✨</div>
+    </div>
+  </div>
+
+  <!-- Page 2 (was page2.html) -->
+  <div class="page" data-page="page2">
+    <div class="card">
+      <h2>Quick question...</h2>
+      <p>Do you like surprises?</p>
+      <div class="btn-row">
+        <button class="btn" onclick="navigate('page3')">Yes 😍</button>
+        <button class="ghost" onclick="maybePopup()">Maybe 🤔</button>
+      </div>
+      <button class="back" onclick="navigate('index')">Go back</button>
+      <div class="card-emoji" aria-hidden="true">🤔</div>
+    </div>
+  </div>
+
+  <div id="popup" class="popup hidden">
+    <div class="popup-card">
+      <h3>Omg stopped!! you're cute for clicking Maybe 😂</h3>
+      <p>Choose yes if you want my surprise.</p>
+      <div class="btn-row">
+        <button class="btn" onclick="closePopup()">Okay</button>
+      </div>
+      <div class="card-emoji" aria-hidden="true">👉🏻👈🏻</div>
+    </div>
+  </div>
+
+  <!-- Page 3 (was page3.html) -->
+  <div class="page" data-page="page3">
+    <div class="card card-small">
+  <h2>Promise you won't laugh?</h2>
+  <p class="hidden" id="page3-intro">Okay, one more tiny step don't scroll ahead 😉</p>
+
+  <div class="stages hidden">
+        <div class="stage hidden" id="stage1">
+          <p>Okay, so… promise you won’t freak out? Cuz what I’m about to say might just change things a little.</p>
+        </div>
+        <div class="stage hidden" id="stage2">
+          <p>You ever look at someone and your brain’s just like ‘uh oh’? Yeah, that’s been me for a while.</p>
+        </div>
+        <div class="stage hidden" id="stage3">
+          <p>You’ve been lowkey living rent-free in my head and it’s getting crowded up there.</p>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button id="reveal-btn" class="btn">Reveal</button>
+      </div>
+  <button id="page3-back" class="back hidden" onclick="navigate('page2')">Back</button>
+      <div class="card-emoji" aria-hidden="true">💬</div>
+    </div>
+  </div>
+
+  <!-- Page 4 (was page4.html) -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="page" data-page="page4">
+    <div class="card card-proposal">
+      <h2>So... here's the thing 😓</h2>
+      <p class="proposal-text">You know, I’ve been trying to act like I’ve got it all together, but the truth is, every
+        time you’re around, everything else just fades ✨. It’s like you bring this calm chaos my heart’s racing, but
+        somehow, it feels right 💞. I’ll be in the middle of something random, and suddenly, I’m smiling for no reason…
+        and that reason is always you 🥹💫. I’ve tried to ignore it, pretend it’s just a phase, but honestly, I’m done
+        hiding it ❤️. You’re the person I look for in every crowd, the thought that sneaks in no matter how hard I try
+        to focus 🫶. So here it is, no filters, no fancy words I like you. A lot 💌. And I don’t just want to be a
+        part of your story… I want to be the reason your favorite chapters exist 🌙💖. So....🥹?</p>
+      <div class="btn-row big">
+        <button class="btn" id="yes-btn">I wanna be yours! ❤️</button>
+        <button class="ghost" id="no-btn">I'd rather be friends 💔</button>
+      </div>
+
+      <button class="back" onclick="navigate('page3')">Back</button>
+      <div class="card-emoji" aria-hidden="true">💌</div>
+    </div>
+  </div>
+
+  <div id="result" class="popup hidden">
+    <div class="popup-card">
+      <h3 id="result-title"></h3>
+      <p id="result-body"></p>
+      <div class="btn-row">
+        <button class="btn" onclick="hideResultAndContinue()">Continue</button>
+      </div>
+      <div class="card-emoji" aria-hidden="true">👉</div>
+    </div>
+  </div>
+
+  <!-- Page 5 (was page5.html) -->
+  <div class="page finale" data-page="page5">
+    <div class="card card-large">
+      <h1 id="final-title">Thanks for reading 💕</h1>
+      <p id="final-sub">Thank you for hearing me out 😉💫. You could’ve brushed it off or avoided it, but you didn’t
+        and that honestly means a lot 😭❤️. I’m really grateful for the laughs, the late-night talks, and the random chaos
+        we’ve shared 😌✨. You’ve been such a beautiful part of my story, and that’s something I’ll always appreciate 🌹.
+        Whether it’s as friends or just someone who crossed paths at the right time, I’ll always be thankful for you
+        💞, and by my heart "I LOVE YOU"❤️ and never ever hurt you, leave you I promise 😭🤞🏻.</p>
+      <div class="btn-row">
+        <button class="btn" onclick="shareCopy()">Share your Answer 💌</button>
+        <button class="ghost" onclick="navigate('index')">Start over</button>
+      </div>
+      <div class="card-emoji" aria-hidden="true">🌟</div>
+    </div>
+  </div>
+
+  <!-- Page 5 (friends copy) -->
+  <div class="page finale" data-page="page5-friends">
+    <div class="card card-large">
+      <h1 id="final-title-friends">Thanks for being honest 😄</h1>
+      <p id="final-sub-friends">Hey, don’t worry about it, seriously 🙂. I meant every word I said, but I also meant it
+        when I said I care about you as a person, not just a crush 💫. I’d rather have you in my life as a friend than
+        not have you at all 🤝. So let’s just keep things real no awkwardness, no pressure 🌿. You’re still someone I
+        genuinely vibe with, and that doesn’t change just because the answer wasn’t what I hoped for 💛.</p>
+      <div class="btn-row">
+        <button class="btn" onclick="shareCopy()">Share your Answer 💌</button>
+        <button class="ghost" onclick="navigate('index')">Start over</button>
+      </div>
+      <div class="card-emoji" aria-hidden="true">🤝</div>
+    </div>
+  </div>
+
+  <audio id="bg-music" src="music.mp3" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

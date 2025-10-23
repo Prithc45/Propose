@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Friends</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        .content {
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 0 0 20px rgba(255,0,0,0.3);
+            margin: 0;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Rain effect */
+        .rain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .drop {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(transparent, rgba(255,255,255,0.3));
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        /* Broken heart pieces */
+        .broken-heart {
+            position: fixed;
+            font-size: 8rem;
+            width: 1em;
+            height: 1em;
+            left: 50%;
+            top: 65%;
+            transform: translate(-50%, -50%);
+            animation: shatter 1s ease-out forwards;
+            opacity: 0.3;
+        }
+
+        .piece {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff6b6b"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') center/contain no-repeat;
+            opacity: 0.6;
+            filter: grayscale(1);
+        }
+
+        @keyframes shatter {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+        }
+
+        .piece:nth-child(1) { left: 0; top: 0; animation: scatter1 2s ease-out forwards; }
+        .piece:nth-child(2) { right: 0; top: 0; animation: scatter2 2s ease-out forwards; }
+        .piece:nth-child(3) { left: 0; bottom: 0; animation: scatter3 2s ease-out forwards; }
+        .piece:nth-child(4) { right: 0; bottom: 0; animation: scatter4 2s ease-out forwards; }
+
+        @keyframes scatter1 { to { transform: translate(-100px, -100px) rotate(-45deg); opacity: 0; }}
+        @keyframes scatter2 { to { transform: translate(100px, -100px) rotate(45deg); opacity: 0; }}
+        @keyframes scatter3 { to { transform: translate(-100px, 100px) rotate(-135deg); opacity: 0; }}
+        @keyframes scatter4 { to { transform: translate(100px, 100px) rotate(135deg); opacity: 0; }}
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>You got NO buddy!! 😞</h1>
+    </div>
+    <div class="rain"></div>
+    <div class="broken-heart">
+        <div class="piece"></div>
+        <div class="piece"></div>
+        <div class="piece"></div>
+        <div class="piece"></div>
+    </div>
+
+    <script>
+        // Play sad sound effect
+        const sfx = new Audio('rejection.mp3');
+        sfx.play();
+
+        // Create rain drops
+        function createRainDrop() {
+            const drop = document.createElement('div');
+            drop.className = 'drop';
+            drop.style.left = Math.random() * 100 + 'vw';
+            drop.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+            drop.style.opacity = Math.random() * 0.3 + 0.1;
+            
+            document.querySelector('.rain').appendChild(drop);
+            
+            drop.addEventListener('animationend', () => drop.remove());
+        }
+
+        // Create initial rain drops
+        for(let i = 0; i < 100; i++) {
+            createRainDrop();
+            const drop = document.querySelector('.rain').lastChild;
+            drop.style.top = Math.random() * 100 + 'vh';
+        }
+
+        // Continue creating rain
+        setInterval(createRainDrop, 100);
+    </script>
+</body>
+</html>
