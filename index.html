@@ -3,12 +3,25 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#1b002b" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <title>Hey cutie 💌</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Preload fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <!-- Loading Screen -->
+  <div class="loader">
+    <div class="loading-heart">💌</div>
+    <div class="loading-text">LOADING</div>
+  </div>
+
   <!-- HERO / Landing (was index.html) -->
   <div class="page hero" data-page="index">
     <div class="card">
@@ -70,7 +83,7 @@
         <button id="reveal-btn" class="btn">Reveal</button>
       </div>
   <button id="page3-back" class="back hidden" onclick="navigate('page2')">Back</button>
-      <div class="card-emoji" aria-hidden="true">💬</div>
+      <div class="card-emoji" aria-hidden="true">💭</div>
     </div>
   </div>
 
