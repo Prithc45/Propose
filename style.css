@@ -8,19 +8,22 @@
   --radius: 18px;
   --shadow: 0 0 20px rgba(255,0,128,0.1);
   font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-tap-highlight-color: transparent;
 }
 
-*{box-sizing:border-box;}
-html,body{height:100%;margin:0;padding:0;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;margin:0;padding:0;touch-action:manipulation;}
 body{
   background: var(--bg1);
   color: var(--muted);
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
-  position:relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* Floating background glow orbs */
@@ -72,20 +75,22 @@ body{
 
 /* Base page setup */
 .page{
-  position: absolute;
+  position: fixed;
   inset: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   transition: transform 800ms cubic-bezier(0.4, 0, 0.2, 1),
               opacity 800ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
   transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
+  z-index: 1;
+  background: var(--bg1);
 }
 
 /* Initial page */
@@ -372,11 +377,191 @@ body::after{
   background:radial-gradient(circle at 50% 50%, #40c9ff22 0%, transparent 70%);
 }
 
-/* Small screens */
+/* Loading screen */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+}
+
+.loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-heart {
+  font-size: 2.5rem;
+  animation: bounce 1s infinite;
+  filter: drop-shadow(0 0 10px rgba(255,64,129,0.5));
+}
+
+.loading-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 0 10px rgba(255,64,129,0.5);
+}
+
+@keyframes bounce {
+  0%, 100% { 
+    transform: scale(1) translateY(0); 
+  }
+  50% { 
+    transform: scale(1.2) translateY(-10px);
+  }
+}
+
+/* Mobile loading adjustments */
+@media (max-width: 480px) {
+  .loading-heart {
+    font-size: 2rem;
+  }
+  .loading-text {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile optimizations */
 @media(max-width:480px){
-  h1{font-size:1.5rem}
-  .card{padding:20px}
-  p{font-size:0.9rem}
+  :root {
+    --radius: 16px;
+  }
+  
+  body {
+    padding: 0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .card {
+    padding: 24px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    min-height: auto;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+  }
+
+  h1 { 
+    font-size: 1.5rem; 
+    margin-bottom: 16px;
+  }
+  h2 { font-size: 1.35rem; }
+  p { 
+    font-size: 0.95rem; 
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  /* Fix actions container */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+    z-index: 2;
+    position: relative;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  /* Improve button touch targets */
+  .btn, .ghost {
+    width: 100%;
+    min-height: 54px;
+    font-size: 1.1rem;
+    padding: 14px 28px;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    border-radius: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+
+  /* Add touch active state */
+  .btn:active {
+    transform: translateY(1px) scale(0.98);
+    transition: transform 0.1s;
+  }
+
+  .ghost:active {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(1px);
+  }
+
+  .popup-card {
+    width: calc(100% - 32px);
+    max-width: none;
+    padding: 24px;
+    margin: 16px;
+    z-index: 1100;
+  }
+
+  /* Smoother page transitions */
+  .page[data-visible="true"] {
+    transform: translateX(0) !important;
+    opacity: 1;
+  }
+
+  .page[data-direction="forward"]:not([data-visible="true"]) {
+    transform: translateX(30%) !important;
+  }
+
+  .page[data-direction="back"]:not([data-visible="true"]) {
+    transform: translateX(-30%) !important;
+  }
+
+  /* Fix emoji positioning */
+  .card-emoji {
+    font-size: 1.2rem;
+    z-index: 1;
+  }
+  
+  .card-emoji-extra {
+    font-size: 1rem;
+    z-index: 1;
+  }
+
+  .emoji-glow {
+    filter: blur(4px) saturate(1.2);
+  }
+
+  /* Fix small text */
+  .hint {
+    font-size: 0.85rem;
+    opacity: 0.8;
+    margin-top: 16px;
+    display: block;
+  }
+
+  /* Ensure loader is above everything */
+  .loader {
+    z-index: 9999;
+  }
 }
 
 /* Sad/friends finale styling */
